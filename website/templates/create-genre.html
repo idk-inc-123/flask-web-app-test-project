@@ -1,0 +1,12 @@
+{% extends "base.html" %} {% block title %}create genre{% endblock %} {% block content
+    %}
+    <h1 align="center">Создать жанр</h1>
+    <hr class="my-4">
+    <form method="POST">
+        <div class="mb-3">
+          <label for="genre-name" class="form-label">Введите жанр</label>
+          <input type="genre-name" class="form-control" id="genre-name" name="genre-name">
+        </div>
+        <button type="submit" class="btn btn-primary">Подтвердить</button>
+    </form>
+    {% endblock %}

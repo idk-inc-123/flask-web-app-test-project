@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    <title>{% block title %}Home{% endblock %}</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbar"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+          <ul class="navbar-nav mr-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" id="home" href="/">Книги</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Создать
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" id="create-genre" href="/create-genre">Жанр</a>
+                <a class="dropdown-item" id="create-book" href="/create-book">Книгу</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Редактировать
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" id="edit-genre" href="/edit-genre">Жанр</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="logout" href="/logout">Выйти</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" id="login" href="/login">Авторизоваться</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="signUp" href="/sign-up">Зарегистрироваться</a>
+            </li>
+            {% endif %}
+          </ul>
+          {% if request.path=="/" or request.path=="/search" and user.is_authenticated %}
+            <form method="post" action="{{ url_for('views.search') }}" class="form-inline mt-2 mt-md-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search" name="search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+            </form>
+          {% endif %}
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %} {% if category ==
+        'error' %}
+        <div class="alert alert-danger alter-dismissable fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% else %}
+        <div class="alert alert-success alter-dismissable fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endif %} {% endfor %} {% endif %} {% endwith %}
+    
+        <div class="album py-4">
+          <div class="container" style="max-width: 1400px;">{% block content %} {% endblock %}</div>
+        </div>
+    </main>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+	{% block javascript %}
+		<script type="text/javascript">
+			function deleteBook(button) {
+				var bookId = button.dataset.bookId;
+				fetch("/delete-book", {
+					method: "POST",
+					body: JSON.stringify({ bookId: bookId }),
+				}).then((_res) => {
+					window.location.href = "/";
+				});
+			}
+      function deleteGenre() {
+				var genreId = document.querySelector('#genre-select').value;
+				fetch("/delete-genre", {
+					method: "POST",
+					body: JSON.stringify({ genreId: genreId }),
+				}).then((_res) => {
+					window.location.href = "/";
+				});
+			}
+		</script>
+	{% endblock %}
+  </body>
+</html>
