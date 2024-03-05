@@ -15,7 +15,7 @@ def home():
         books = Books.query.options(joinedload(Books.genre_rel)).all()
         genres = Genres.query.all()
         books_by_genre = {genre.name: [book for book in books if book.genre_rel == genre] for genre in genres}
-        return render_template("home.html", user=current_user, books_by_genre=books_by_genre)
+        return render_template("home.html", user=current_user, books_by_genre=books_by_genre, books=books)
     except Exception as e:
         return jsonify({"Error": str(e)}), 500
 

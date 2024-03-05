@@ -34,4 +34,12 @@
     {% endfor %}
   </div>
   {% endfor %}
+  {% if books|length == 0 %}
+    <div class="container text-center mt-5">
+      <h2 class="mt-3">{{ "Ни одной книги не создано!" }}</h2>
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Загрузка...</span>
+      </div>
+    </div>
+  {% endif %}
 {% endblock %}
