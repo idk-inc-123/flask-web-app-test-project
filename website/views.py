@@ -57,13 +57,14 @@ def create_book():
             publish_date = request.form.get('book-date')
             author = request.form.get('book-author')
             stock = request.form.get('book-stock')
-            book = Books.query.filter_by(name=name).first()
+
+            existing_book = Books.query.filter_by(name=name, genre=genre_id).first()
 
             if not name or not image or not description or not genre_id or not price or not publish_date or not author or not stock:
                 flash('Invalid form.', category='error')
             elif (len(name) < 1 or len(name) > 255) or (len(image) < 1 or len(image) > 255) or (len(author) < 1 or len(author) > 255) or (len(description) < 1 or len(description) > 500):
                 flash('Invalid form.', category='error')
-            elif book:
+            elif existing_book:
                 flash('Book already exists.', category='error')
             else:
                 new_book = Books(name=name, image=image, description=description, genre=genre_id, author=author, publish_date=publish_date, price=price, stock=stock)
@@ -74,7 +75,6 @@ def create_book():
         return render_template("create-book.html", user=current_user, genres=genres)
     except Exception as e:
         return jsonify({"Error": str(e)}), 500
-
 
 @views.route('/edit-book/<int:book_id>', methods=['GET', 'POST'])
 @login_required
