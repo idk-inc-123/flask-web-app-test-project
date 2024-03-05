@@ -163,6 +163,11 @@ def delete_genre():
     genreId = genre['genreId']
     genre = Genres.query.get(genreId)
     if genre:
+        books = Books.query.filter_by(genre=genreId).all()
+        for book in books:
+            db.session.delete(book)
+            
+        db.session.commit()
         db.session.delete(genre)
         db.session.commit()
         flash('Genre deleted!', category='success')
