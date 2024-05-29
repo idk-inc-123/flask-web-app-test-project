@@ -3,7 +3,7 @@
 {% for genre, genre_books in books_by_genre.items() %}
 	{% if genre_books %}
 		<h2>{{ genre }}</h2>
-		<hr class="my-4">
+		<hr class="my-3">
 	{% endif %}
 	<div class="row row-cols-1 row-cols-md-3">
 		{% for book in genre_books %}
