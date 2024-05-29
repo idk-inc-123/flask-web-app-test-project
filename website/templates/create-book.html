@@ -1,49 +1,49 @@
 {% extends "base.html" %} {% block title %}create book{% endblock %} {% block content
-    %}
-    <h1 align="center">Создать книгу</h1>
-    <hr class="my-4">
-    <form method="POST">
-        <div class="mb-3">
-          <label for="book-name" class="form-label">Название книги</label>
-          <input type="book-name" class="form-control" id="book-name" name="book-name">
-        </div>
-        <div class="mb-3">
-            <label for="book-image" class="form-label">Ссылка на изображение</label>
-            <input type="book-image" class="form-control" id="book-image" name="book-image">
-        </div>
-        <div class="mb-3">
-            <label for="book-description">Описание книги</label>
-            <textarea class="form-control" id="book-description" name="book-description"></textarea>
-        </div>
-        
-        <div class="mb-3">
-            <label for="genre-select">Укажите жанр</label>
-            <select class="custom-select mr-sm-2" id="genre-select" name="genre-select">
-                {% for genre in genres %}
-                    <option value="{{ genre.id }}">{{ genre.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        
-        <div class="mb-3">
-            <label for="book-price" class="form-label">Укажите цену</label>
-            <input type="book-price" class="form-control" id="book-price" name="book-price">
-        </div>
-    
-        <div class="mb-3">
-            <label for="book-date" class="form-label">Укажите год издания</label>
-            <input type="book-date" class="form-control" id="book-date" name="book-date">
-        </div>
-    
-        <div class="mb-3">
-            <label for="book-author" class="form-label">Укажите автора</label>
-            <input type="book-author" class="form-control" id="book-author" name="book-author">
-        </div>
-    
-        <div class="mb-3">
-            <label for="book-stock" class="form-label">Укажите количество в наличии</label>
-            <input type="book-stock" class="form-control" id="book-stock" name="book-stock">
-        </div>
-        <button type="submit" class="btn btn-primary">Подтвердить</button>
-    </form>
-    {% endblock %}
+%}
+<h1 align="center">Создать книгу</h1>
+<hr class="my-4">
+<form method="POST">
+	<div class="mb-3">
+		<label for="book-name" class="form-label">Название книги</label>
+		<input type="book-name" class="form-control" id="book-name" name="book-name">
+	</div>
+	<div class="mb-3">
+		<label for="book-image" class="form-label">Ссылка на изображение</label>
+		<input type="book-image" class="form-control" id="book-image" name="book-image">
+	</div>
+	<div class="mb-3">
+		<label for="book-description">Описание книги</label>
+		<textarea class="form-control" id="book-description" name="book-description"></textarea>
+	</div>
+
+	<div class="mb-3">
+		<label for="genre-select">Укажите жанр</label>
+		<select class="custom-select mr-sm-2" id="genre-select" name="genre-select">
+			{% for genre in genres %}
+				<option value="{{ genre.id }}">{{ genre.name }}</option>
+			{% endfor %}
+		</select>
+	</div>
+
+	<div class="mb-3">
+		<label for="book-price" class="form-label">Укажите цену</label>
+		<input type="book-price" class="form-control" id="book-price" name="book-price">
+	</div>
+
+	<div class="mb-3">
+		<label for="book-date" class="form-label">Укажите год издания</label>
+		<input type="book-date" class="form-control" id="book-date" name="book-date">
+	</div>
+
+	<div class="mb-3">
+		<label for="book-author" class="form-label">Укажите автора</label>
+		<input type="book-author" class="form-control" id="book-author" name="book-author">
+	</div>
+
+	<div class="mb-3">
+		<label for="book-stock" class="form-label">Укажите количество в наличии</label>
+		<input type="book-stock" class="form-control" id="book-stock" name="book-stock">
+	</div>
+	<button type="submit" class="btn btn-primary">Подтвердить</button>
+</form>
+{% endblock %}
